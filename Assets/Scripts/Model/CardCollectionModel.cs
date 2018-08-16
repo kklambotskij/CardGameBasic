@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class CardCollectionModel {
 
-    protected List<Card> Cards { get; set; }
-    protected string Name { get; set; }
-    
-    protected void GiveCard()
-    {
+    public List<Card> Cards { get; set; }
+    public string Name { get; set; }
 
+    public void GiveCard(Card card)
+    {
+        
     }
 
-    protected void TakeCard()
+    public Card TakeCard()
     {
-
+        return new Card();
     }
 
     protected void Shuffle()
