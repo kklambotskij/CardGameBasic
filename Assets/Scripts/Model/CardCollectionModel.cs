@@ -36,7 +36,7 @@ public class CardCollectionModel : MonoBehaviour {
         if (Cards == null) { throw new System.Exception("Cards is null"); }
         if (Cards.Count != 0)
         {
-            Card card = new Card(Cards[Cards.Count - 1]);
+            Card card = Cards[Cards.Count - 1];
             Cards.RemoveAt(Cards.Count - 1);
             return card;
         }
