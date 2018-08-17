@@ -2,14 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardCollectionModel {
+public class CardCollectionModel : MonoBehaviour {
 
-    public List<Card> Cards { get; set; }
-    public string Name { get; set; }
+    protected List<Card> Cards;
+    protected string Name;
 
-    public CardCollectionModel()
+    private void Start()
+    {
+        Init(gameObject.name);
+    }
+
+    public void Init(string name)
     {
         Cards = new List<Card>();
+        Name = name;
+    }
+
+    public string GetName()
+    {
+        return Name;
     }
 
     public void GiveCard(Card card)

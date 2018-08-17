@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class HandController : PlayerController  {
 
-    HandModel model = new HandModel("player1");
+    public HandModel model;
+
+    private void Awake()
+    {
+        model = GetComponent<HandModel>();
+    }
 
     public void getCard()
     {
-        model.GiveCard(target.TakeCard());
+        
     }
 }

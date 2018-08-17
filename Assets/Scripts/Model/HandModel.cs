@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HandModel : CardCollectionModel {
-    
-    public HandModel(string name)
-    {
-        
-    }
+
+    public string playerName { get; }
 
     protected override void Render(Vector3 position, Quaternion rotation)
     {
