@@ -20,7 +20,10 @@ public class PlayerController : MonoBehaviour
         if (myTurn && Input.GetMouseButtonDown(0))
         {
             SetTarget();
-            Actions();
+            if (Target != null)
+            {
+                Actions();
+            }
         }
         else
         {

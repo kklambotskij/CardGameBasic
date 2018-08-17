@@ -9,7 +9,7 @@ public class CardCollectionModel : MonoBehaviour {
     protected List<Card> Cards;
     protected string Name;
 
-    private void Start()
+    protected void Start()
     {
         Init(gameObject.name);
     }

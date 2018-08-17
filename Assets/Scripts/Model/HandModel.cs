@@ -6,7 +6,14 @@ public class HandModel : CardCollectionModel {
 
     private string getName()
     {
-        return playerName;
+        return PlayerName;
+    }
+
+    private new void Start()
+    {
+        base.Start();
+    }
+
     }
 
     protected override void Render(Vector3 position, Quaternion rotation)
