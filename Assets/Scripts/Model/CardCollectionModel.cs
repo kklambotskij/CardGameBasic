@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CardCollectionModel : MonoBehaviour {
+
+    public const string HAND_MODEL = "HandModel";
+    public const string DECK_MODEL = "DeckModel";
 
     protected List<Card> Cards;
     protected string Name;

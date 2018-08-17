@@ -1,10 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HandModel : CardCollectionModel {
 
-    public string playerName { get; }
+    private string playerName;
+
+    private string getName()
+    {
+        return playerName;
+    }
 
     protected override void Render(Vector3 position, Quaternion rotation)
     {

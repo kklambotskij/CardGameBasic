@@ -5,27 +5,48 @@ public class PlayerController : MonoBehaviour
     protected CardCollectionModel Target { get; set; }
     protected bool myTurn;
 
-    private void Awake()
+    protected void Awake()
     {
-        myTurn = false;
+        myTurn = true;
     }
 
-    private void Start()
+    protected void Start()
     {
         
     }
 
-    private void Update()
+    protected void Update()
     {
         if (myTurn && Input.GetMouseButtonDown(0))
         {
             SetTarget();
+            Actions();
         }
         else
         {
             Target = null;
         }
     }
+
+    protected virtual void Actions()
+    {
+        switch (Target.GetType().Name)
+        {
+            case CardCollectionModel.HAND_MODEL:
+                HandAction();
+                break;
+            case CardCollectionModel.DECK_MODEL:
+                DeckAction();
+                break;
+            default:
+                Debug.Log("Unexpected target");
+                break;
+        }
+    }
+
+    protected virtual void HandAction() {}
+
+    protected virtual void DeckAction() {}
 
     private void SetTarget()
     {
@@ -47,6 +68,5 @@ public class PlayerController : MonoBehaviour
         Debug.Log(cardCollection.GetName());
         return cardCollection;
     }
-
 
 }
