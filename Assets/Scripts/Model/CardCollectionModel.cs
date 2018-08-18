@@ -1,15 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CardCollectionModel {
+public class CardCollectionModel : MonoBehaviour {
 
-    public List<Card> Cards { get; set; }
-    public string Name { get; set; }
+    public const string HAND_MODEL = "HandModel";
+    public const string DECK_MODEL = "DeckModel";
 
-    public CardCollectionModel()
+    protected List<Card> Cards;
+    protected string Name;
+
+    protected void Start()
+    {
+        Init(gameObject.name);
+    }
+
+    public void Init(string name)
     {
         Cards = new List<Card>();
+        Name = name;
+    }
+
+    public string GetName()
+    {
+        return Name;
     }
 
     public void GiveCard(Card card)
@@ -23,7 +36,7 @@ public class CardCollectionModel {
         if (Cards == null) { throw new System.Exception("Cards is null"); }
         if (Cards.Count != 0)
         {
-            Card card = new Card(Cards[Cards.Count - 1]);
+            Card card = Cards[Cards.Count - 1];
             Cards.RemoveAt(Cards.Count - 1);
             return card;
         }
