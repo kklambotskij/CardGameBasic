@@ -1,7 +1,7 @@
 ﻿
 public class HandController : PlayerController  {
 
-    public HandModel model;
+    HandModel model;
 
     private new void Awake()
     {
@@ -28,10 +28,17 @@ public class HandController : PlayerController  {
     protected override void DeckAction()
     {
         base.DeckAction();
+        GetCard();
+        EndTurn();
     }
 
-    public void getCard()
+    public void GetCard()
     {
         model.GiveCard(Target.TakeCard());
+    }
+
+    public string getPlayerName() 
+    {
+        return model.GetName();
     }
 }

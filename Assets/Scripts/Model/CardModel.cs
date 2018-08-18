@@ -19,13 +19,11 @@ public class Card
         {
             Hearts, Spades, Diamonds, Clubs
         }
+
         public Suit(Values suit)
         {
             Value = suit;
         }
-
-
-
     }
 
     public class Color

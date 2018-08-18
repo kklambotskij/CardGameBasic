@@ -9,9 +9,14 @@ public class CardCollectionModel : MonoBehaviour {
     protected List<Card> Cards;
     protected string Name;
 
-    protected void Start()
+    protected void Awake()
     {
         Init(gameObject.name);
+    }
+
+    protected void Start()
+    {
+        
     }
 
     public void Init(string name)
@@ -28,19 +33,28 @@ public class CardCollectionModel : MonoBehaviour {
     public void GiveCard(Card card)
     {
         if (Cards == null) { throw new System.Exception("Cards is null"); }
-        Cards.Add(card);
+        if (card != null)
+        {
+            Cards.Add(card);
+        }
     }
 
     public Card TakeCard()
     {
+        return TakeCard(Cards.Count - 1);
+    }
+
+    public Card TakeCard(int index) 
+    {
         if (Cards == null) { throw new System.Exception("Cards is null"); }
-        if (Cards.Count != 0)
+        if (Cards.Count == 0) { return null; }
+        if (Cards.Count > index)
         {
-            Card card = Cards[Cards.Count - 1];
-            Cards.RemoveAt(Cards.Count - 1);
+            Card card = Cards[index];
+            Cards.RemoveAt(index);
             return card;
         }
-        return null;
+        return null;    
     }
 
     protected void Shuffle()
@@ -63,7 +77,7 @@ public class CardCollectionModel : MonoBehaviour {
 
     protected virtual void Render(Vector3 position, Quaternion rotation)
     {
-        //implement
+        
     }
 
 }

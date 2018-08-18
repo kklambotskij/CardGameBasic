@@ -9,6 +9,11 @@ public class HandModel : CardCollectionModel {
         return PlayerName;
     }
 
+    private new void Awake()
+    {
+        base.Awake();
+    }
+
     private new void Start()
     {
         base.Start();

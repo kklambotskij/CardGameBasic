@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     protected void Awake()
     {
-        myTurn = true;
+        myTurn = false;
     }
 
     protected void Start()
@@ -19,8 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         if (myTurn && Input.GetMouseButtonDown(0))
         {
-            SetTarget();
-            if (Target != null)
+            if (SetTarget())
             {
                 Actions();
             }
@@ -51,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void DeckAction() {}
 
-    private void SetTarget()
+    bool SetTarget()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -59,6 +58,7 @@ public class PlayerController : MonoBehaviour
         {
             Target = DetectCardCollection(hit.collider.gameObject);
         }
+        return (Target != null);
     }
 
     public static CardCollectionModel DetectCardCollection(GameObject gameObject)
@@ -68,8 +68,19 @@ public class PlayerController : MonoBehaviour
         {
             cardCollection = gameObject.GetComponent<HandModel>();
         }
-        Debug.Log(cardCollection.GetName());
+        Debug.Log(cardCollection.name);
         return cardCollection;
+    }
+
+    public void GiveTurn()
+    {
+        myTurn = true;
+    }
+
+    public void EndTurn()
+    {
+        myTurn = false;
+        Access.instance.EndTurn();
     }
 
 }
