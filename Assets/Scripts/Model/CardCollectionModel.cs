@@ -9,7 +9,7 @@ public class CardCollectionModel : MonoBehaviour {
     public Vector3 position;
     public Quaternion rotation;
 
-    protected List<Card> Cards;
+    public List<Card> Cards;
     protected string Name;
     
 
@@ -106,17 +106,13 @@ public class CardCollectionModel : MonoBehaviour {
 
     protected void Reset() 
     {
-        if (Cards == null) { throw new System.Exception("Cards is null"); }
+        if (Cards == null) { throw new System.Exception("Cards are null."); }
         Cards.Clear();
     }
 
     protected virtual void Render(Vector3 position, Quaternion rotation)
     {
-        Debug.Log("Unexectable");
-    }
-
-    protected virtual void Replace(Vector3 position, Quaternion rotation)
-    {
-        Debug.Log("Unexectable");
+        GameObject cardObject = Instantiate((GameObject)Resources.Load("FPC/PlayingCards_2Heart"));
+        cardObject.transform.position = new Vector3(-1, 0, -5);
     }
 }

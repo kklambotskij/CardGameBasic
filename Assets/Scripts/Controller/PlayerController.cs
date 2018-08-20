@@ -4,10 +4,13 @@ public class PlayerController : MonoBehaviour
 {
     protected CardCollectionModel Target { get; set; }
     protected bool myTurn;
+    protected int numberOfChosenCard;
+    protected Vector2 defaultPosition;
 
     protected void Awake()
     {
         myTurn = false;
+        numberOfChosenCard = -1;
     }
 
     protected void Start()
@@ -46,9 +49,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void HandAction() {}
+    protected virtual void HandAction()
+    {
+        int i;
+        // Поиск выбранной карты в списке и нахождение её индекса:
+        for (i = 0; i < Target.Cards.Count; i++)
+        {
+            if (Target.gameObject == Target.gameObject) // Target.gameObject == Cards[i].gameObject
+            {
+                break;
+            }
+        }
+        if (numberOfChosenCard != i)
+        {
+            // Все карты возвращаются в исходные позиции:
+            Target.transform.position = defaultPosition; // for (int i = 0; i < Cards.Count; i++) { Cards[i].gameObject.transform.position = defaultPosition; }
+            // Обращение к gameobject карты и изменение transform.position:
+            Target.gameObject.transform.position += new Vector3(0, 1, 0);
+            numberOfChosenCard = i;
+        }
+        else
+        {
+            // PlayCard();
+            numberOfChosenCard = -1;
+        }
+    }
 
-    protected virtual void DeckAction() {}
+    protected virtual void DeckAction()
+    {
+        Target.TakeCard();
+    }
 
     bool SetTarget()
     {
@@ -57,6 +87,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Target = DetectCardCollection(hit.collider.gameObject);
+            defaultPosition = Target.gameObject.transform.position;
         }
         return (Target != null);
     }
