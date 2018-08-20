@@ -2,11 +2,13 @@
 public class HandController : PlayerController  {
 
     HandModel model;
+    public Rules rules;
 
     private new void Awake()
     {
         base.Awake();
         model = GetComponent<HandModel>();
+        rules = new UnoRules();
     }
 
     private new void Update()
@@ -37,8 +39,21 @@ public class HandController : PlayerController  {
         model.GiveCard(Target.TakeCard());
     }
 
+    public void PutCard(Card chosenCard, CardCollectionModel model)
+    {
+        if (rules.IsAllowed(chosenCard, model))
+        {
+            model.GiveCard(chosenCard);
+        }
+    }
+
     public string getPlayerName() 
     {
-        return model.GetName();
+        return model.PlayerName;
+    }
+
+    public void setPlayerName(string name)
+    {
+        model.PlayerName = name;
     }
 }

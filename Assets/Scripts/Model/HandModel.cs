@@ -2,12 +2,7 @@
 
 public class HandModel : CardCollectionModel {
 
-    private string PlayerName;
-
-    private string getName()
-    {
-        return PlayerName;
-    }
+    public string PlayerName;
 
     private new void Awake()
     {

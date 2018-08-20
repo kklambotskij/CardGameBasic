@@ -22,7 +22,7 @@ public class Access : MonoBehaviour
     GameObject changeColor;
 
 
-    private int playerNumber = -1;
+    private int currentPlayer = -1;
     int timerTurn;
     public bool win;
 
@@ -43,7 +43,6 @@ public class Access : MonoBehaviour
         timerTurn = -2;
         AddPlayer(GameObject.Find("Player1"));
         AddPlayer(GameObject.Find("Player2"));
-        AddPlayer(GameObject.Find("Player3"));
         GiveTurn(0);
     }
 
@@ -54,8 +53,8 @@ public class Access : MonoBehaviour
 
     public HandController NextPlayer()
     {
-        playerNumber = (playerNumber + 1) % Hands.Count;
-        return Hands[playerNumber];
+        currentPlayer = (currentPlayer + 1) % Hands.Count;
+        return Hands[currentPlayer];
     }
 
     public void AddPlayer(GameObject obj)
@@ -82,7 +81,7 @@ public class Access : MonoBehaviour
             Hands[number].GiveTurn();
             Hands[number].gameObject.SetActive(true);
         }
-        playerNumber = number;
+        currentPlayer = number;
         if (win)
         {
             UpdateCurrentPlayerText();
@@ -96,7 +95,7 @@ public class Access : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GiveTurn(playerNumber + 1);
+            GiveTurn(currentPlayer + 1);
         }
     }
 
@@ -116,7 +115,7 @@ public class Access : MonoBehaviour
     {
         if (!win)
         {
-            timerTurn = (playerNumber + 1);
+            timerTurn = (currentPlayer + 1);
             StartCoroutine(TimerTurn());
         }
     }
