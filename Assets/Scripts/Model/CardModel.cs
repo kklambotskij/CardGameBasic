@@ -2,27 +2,29 @@
 
 public class Card
 {
-
-    public string Value { get; set; }
+    CardView cardView;
+    public string StringValue { get; set; }
     public Suit CardSuit { get; set; }
     public string Owner { get; set; }
     public Color CardColor { get; set; }
 
-
+    public bool isOnScreen = false;
+ 
     public class Suit
     {
+        public string StringSuit;
         //TODO: implement same as Color
         public Values Value { get; set; }
         public GameObject Object { get; set; }
 
         public enum Values
         {
-            Hearts, Spades, Diamonds, Clubs
+            Heart, Spades, Diamond, Club
         }
-
         public Suit(Values suit)
         {
             Value = suit;
+            StringSuit = suit.ToString();
         }
     }
 
@@ -95,27 +97,54 @@ public class Card
 
     public Card(string value, Suit suit)
     {
-        Value = value;
+        StringValue = value;
         CardSuit = suit;
     }
 
     public Card(string value, Color color)
     {
-        Value = value;
+        StringValue = value;
         CardColor = color;
     }
 
     public Card(Card card)
     {
-        Value = card.Value;
+        StringValue = card.StringValue;
         CardColor = card.CardColor;
         CardSuit = card.CardSuit;
     }
-
-
-    public void Render(Vector3 position, Quaternion rotation)
+    public void CreateCard(Vector3 position, Quaternion rotation)
     {
-        //implement
+        cardView = new CardView();
+        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation);
     }
-
+    public void ReplaceCard(Vector3 position, Quaternion rotation)
+    {
+        cardView.Replace(position, rotation);
+    }
+    public void DestroyCard()
+    {
+        
+    }
+    public class CardView
+    {
+        GameObject cardObject;
+        public void Render(string value, string suit, Vector3 position, Quaternion rotation, GameObject parent = null)
+        {
+            //implement
+            cardObject = (GameObject)GameObject.Instantiate(Resources.Load("FPC/PlayingCards_" + value + suit));
+            cardObject.transform.position = position;
+            cardObject.transform.localScale = new Vector3(10, 10, 4);
+            cardObject.transform.rotation = rotation;
+            if (parent != null)
+            {
+                cardObject.transform.SetParent(parent.transform);
+            }
+        }
+        public void Replace(Vector3 position, Quaternion rotation)
+        {
+            cardObject.transform.position = position;
+            cardObject.transform.rotation = rotation;
+        }
+    }
 }

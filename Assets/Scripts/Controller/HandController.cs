@@ -3,12 +3,20 @@ public class HandController : PlayerController  {
 
     HandModel model;
     public Rules rules;
+    DeckModel deckModel;
 
     private new void Awake()
     {
         base.Awake();
         model = GetComponent<HandModel>();
         rules = new UnoRules();
+    }
+    private new void Start()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+
+        }
     }
 
     private new void Update()
@@ -40,11 +48,13 @@ public class HandController : PlayerController  {
     }
 
     public void PutCard(Card chosenCard, CardCollectionModel model)
+    public void GiveCard(Card card)
     {
         if (rules.IsAllowed(chosenCard, model))
         {
             model.GiveCard(chosenCard);
         }
+        model.GiveCard(card);
     }
 
     public string getPlayerName() 
@@ -55,5 +65,6 @@ public class HandController : PlayerController  {
     public void setPlayerName(string name)
     {
         model.PlayerName = name;
+        return model.GetName();
     }
 }

@@ -6,8 +6,12 @@ public class CardCollectionModel : MonoBehaviour {
     public const string HAND_MODEL = "HandModel";
     public const string DECK_MODEL = "DeckModel";
 
+    public Vector3 position;
+    public Quaternion rotation;
+
     protected List<Card> Cards;
     protected string Name;
+    
 
     protected void Awake()
     {
@@ -18,7 +22,10 @@ public class CardCollectionModel : MonoBehaviour {
     {
         
     }
-
+    protected void Update()
+    {
+       
+    }
     public void Init(string name)
     {
         Cards = new List<Card>();
@@ -37,6 +44,33 @@ public class CardCollectionModel : MonoBehaviour {
         {
             Cards.Add(card);
         }
+        Render(position, rotation);
+    }
+    public void FoolDeck()
+    {
+        for (int i = 2; i < 10; i++)
+        {
+            Cards.Add(new Card(i + "", new Card.Suit(Card.Suit.Values.Club)));
+            Cards.Add(new Card(i + "", new Card.Suit(Card.Suit.Values.Spades)));
+            Cards.Add(new Card(i + "", new Card.Suit(Card.Suit.Values.Heart)));
+            Cards.Add(new Card(i + "", new Card.Suit(Card.Suit.Values.Diamond)));
+        }
+        Cards.Add(new Card("A", new Card.Suit(Card.Suit.Values.Club)));
+        Cards.Add(new Card("A", new Card.Suit(Card.Suit.Values.Spades)));
+        Cards.Add(new Card("A", new Card.Suit(Card.Suit.Values.Heart)));
+        Cards.Add(new Card("A", new Card.Suit(Card.Suit.Values.Diamond)));
+        Cards.Add(new Card("J", new Card.Suit(Card.Suit.Values.Club)));
+        Cards.Add(new Card("J", new Card.Suit(Card.Suit.Values.Spades)));
+        Cards.Add(new Card("J", new Card.Suit(Card.Suit.Values.Heart)));
+        Cards.Add(new Card("J", new Card.Suit(Card.Suit.Values.Diamond)));
+        Cards.Add(new Card("K", new Card.Suit(Card.Suit.Values.Club)));
+        Cards.Add(new Card("K", new Card.Suit(Card.Suit.Values.Spades)));
+        Cards.Add(new Card("K", new Card.Suit(Card.Suit.Values.Heart)));
+        Cards.Add(new Card("K", new Card.Suit(Card.Suit.Values.Diamond)));
+        Cards.Add(new Card("Q", new Card.Suit(Card.Suit.Values.Club)));
+        Cards.Add(new Card("Q", new Card.Suit(Card.Suit.Values.Spades)));
+        Cards.Add(new Card("Q", new Card.Suit(Card.Suit.Values.Heart)));
+        Cards.Add(new Card("Q", new Card.Suit(Card.Suit.Values.Diamond)));
     }
 
     public Card TakeCard()
@@ -51,6 +85,7 @@ public class CardCollectionModel : MonoBehaviour {
         if (Cards.Count > index)
         {
             Card card = Cards[index];
+            card.isOnScreen = false;
             Cards.RemoveAt(index);
             return card;
         }
@@ -77,7 +112,11 @@ public class CardCollectionModel : MonoBehaviour {
 
     protected virtual void Render(Vector3 position, Quaternion rotation)
     {
-        
+        Debug.Log("Unexectable");
     }
 
+    protected virtual void Replace(Vector3 position, Quaternion rotation)
+    {
+        Debug.Log("Unexectable");
+    }
 }
