@@ -71,7 +71,7 @@ public class Card
             }
         }
 
-        public int toInt()
+        public int ToInt()
         {
             //TODO: implement
             switch (Value)
@@ -92,6 +92,104 @@ public class Card
     }
 
 
+    //Номинал
+    public class Denomination
+    {
+        public Values Value { get; set; }
+        public GameObject Object { get; set; }
+        //public static const string Zero = "0";
+        public enum Values
+        {
+            Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, ACE
+        }
+
+        public Denomination(Values denomination)
+        {
+            Value = denomination;
+        }
+
+        public int ToInt()
+        {
+            switch (Values)
+            {
+                case Values.Zero:
+                    return 0;
+                case Values.One:
+                    return 1;
+                case Values.Two:
+                    return 2;
+                case Values.Three:
+                    return 3;
+                case Values.Four:
+                    return 4;
+                case Values.Five:
+                    return 5;
+                case Values.Six:
+                    return 6;
+                case Values.Seven:
+                    return 7;
+                case Values.Eight:
+                    return 8;
+                case Values.Nine:
+                    return 9;
+                case Values.Ten:
+                    return 10;
+                case Values.Jack:
+                    return 11;
+                case Values.Queen:
+                    return 12;
+                case Values.King:
+                    return 13;
+                case Values.ACE:
+                    return 14;
+            }
+            throw new System.Exception("Denomination doesn't exist!");
+        }
+
+        public Denomination(int denomination)
+        {
+            switch (denomination)
+            {
+                case 0:
+                    Value = Values.Zero;
+                case 1:
+                    Value = Values.One;
+                case 2:
+                    Value = Values.Two;
+                case 3:
+                    Value = Values.Three;
+                case 4:
+                    Value = Values.Four;
+                case 5:
+                    Value = Values.Five;
+                case 6:
+                    Value = Values.Six;
+                case 7:
+                    Value = Values.Seven;
+                case 8:
+                    Value = Values.Eight;
+                case 9:
+                    Value = Values.Nine;
+                case 10:
+                    Value = Values.Ten;
+                case 11:
+                    Value = Values.Jack;
+                case 12:
+                    Value = Values.Queen;
+                case 13:
+                    Value = Values.King;
+                case 14:
+                    Value = Values.ACE;
+            }
+        }
+        //Функция возращает разность номиналов двух карт (если DenominationsComparison > 0, то первая карта больше,чем  вторая, если DenominationsComparison = 0, то карты по наминалом равны)
+        public int DenominationsComparison(Denomination denominationFirstCard, Denomination denominationSecondCard)
+        {
+            int ValueFirst = denominationFirstCard.ToInt();
+            int ValueSecond = denominationSecondCard.ToInt();
+            return ValueFirst - ValueSecond;
+        }
+    }
 
     //implement constructors from CardColor / Suit
 
