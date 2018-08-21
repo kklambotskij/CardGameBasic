@@ -2,7 +2,7 @@
 
 public class Card
 {
-    CardView cardView;
+    public CardView mCardView;
     public string StringValue { get; set; }
     public Denomination mDenenomination;
     public Suit CardSuit { get; set; }
@@ -97,6 +97,7 @@ public class Card
     public class Denomination
     {
         public Values Value { get; set; }
+        public GameObject Object { get; set; }
         //public static const string Zero = "0";
         public enum Values
         {
