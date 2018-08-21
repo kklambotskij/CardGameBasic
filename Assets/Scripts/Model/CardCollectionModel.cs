@@ -43,7 +43,7 @@ public class CardCollectionModel : MonoBehaviour {
         if (card != null)
         {
             Cards.Add(card);
-        }
+        }    
         Render(position, rotation);
     }
     public void FoolDeck()
@@ -86,6 +86,7 @@ public class CardCollectionModel : MonoBehaviour {
         {
             Card card = Cards[index];
             card.isOnScreen = false;
+            Cards[index].cardView.SelfDestroy();
             Cards.RemoveAt(index);
             return card;
         }
@@ -112,7 +113,11 @@ public class CardCollectionModel : MonoBehaviour {
 
     protected virtual void Render(Vector3 position, Quaternion rotation)
     {
-        GameObject cardObject = Instantiate((GameObject)Resources.Load("FPC/PlayingCards_2Heart"));
-        cardObject.transform.position = new Vector3(-1, 0, -5);
+        Debug.Log("Unexectable");
+    }
+
+    protected virtual void Replace(Vector3 position, Quaternion rotation)
+    {
+        Debug.Log("Unexectable");
     }
 }

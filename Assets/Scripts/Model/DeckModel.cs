@@ -10,8 +10,8 @@ public class DeckModel : CardCollectionModel {
         base.Awake();
         FoolDeck();
         Shuffle();
-        Quaternion rotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
-        Render(new Vector3(-3, 0, 0), rotation);
+        Quaternion rotation = Quaternion.AngleAxis(-10, new Vector3(1, 0, 0));
+        Render(new Vector3(-4, 0, 0), rotation);
         foreach (var item in Access.instance.GetListOfHands())
         {
             item.GiveCard(Cards[Cards.Count - 1]);
@@ -20,12 +20,15 @@ public class DeckModel : CardCollectionModel {
 
     protected override void Render(Vector3 position, Quaternion rotation)
     {
+        rotation = Quaternion.AngleAxis(-10, new Vector3(1, 0, 0));
+        position = new Vector3(-4, 0, 0);
         //implement
         for (int i = 0; i < Cards.Count; i++)
         {
             if (!Cards[i].isOnScreen)
-            { 
-                Cards[i].CreateCard(new Vector3(position.x, position.y + i * 0.005f, position.z), rotation);
+            {           
+                Cards[i].CreateCard(new Vector3(position.x, position.y + i * 0.005f, position.z),
+                    rotation, gameObject);
                 Cards[i].isOnScreen = true;
             }
         }

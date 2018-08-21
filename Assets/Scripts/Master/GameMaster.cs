@@ -9,7 +9,7 @@ public class GameMaster : MonoBehaviour
 
     private void Awake()
     {
-        rules = new DurakRules(new Card.Suit(Card.Suit.Values.Hearts));
+        rules = new DurakRules(new Card.Suit(Card.Suit.Values.Heart));
     }
 
     void AddPlayer(string name)

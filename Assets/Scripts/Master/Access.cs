@@ -42,7 +42,7 @@ public class Access : MonoBehaviour
         win = false;
         timerTurn = -2;
         AddPlayer(GameObject.Find("Player1"));
-        AddPlayer(GameObject.Find("Player2"));
+        //AddPlayer(GameObject.Find("Player2"));
         GiveTurn(0);
     }
 

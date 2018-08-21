@@ -2,7 +2,8 @@
 
 public class Card
 {
-    CardView cardView;
+    public CardView cardView;
+    public int UID;
     public string StringValue { get; set; }
     public Suit CardSuit { get; set; }
     public string Owner { get; set; }
@@ -110,7 +111,7 @@ public class Card
 
         public int ToInt()
         {
-            switch (Values)
+            switch (Value)
             {
                 case Values.Zero:
                     return 0;
@@ -152,34 +153,49 @@ public class Card
             {
                 case 0:
                     Value = Values.Zero;
+                    break;
                 case 1:
                     Value = Values.One;
+                    break;
                 case 2:
                     Value = Values.Two;
+                    break;
                 case 3:
                     Value = Values.Three;
+                    break;
                 case 4:
                     Value = Values.Four;
+                    break;
                 case 5:
                     Value = Values.Five;
+                    break;
                 case 6:
                     Value = Values.Six;
+                    break;
                 case 7:
                     Value = Values.Seven;
+                    break;
                 case 8:
                     Value = Values.Eight;
+                    break;
                 case 9:
                     Value = Values.Nine;
+                    break;
                 case 10:
                     Value = Values.Ten;
+                    break;
                 case 11:
                     Value = Values.Jack;
+                    break;
                 case 12:
                     Value = Values.Queen;
+                    break;
                 case 13:
                     Value = Values.King;
+                    break;
                 case 14:
                     Value = Values.ACE;
+                    break;
             }
         }
         //Функция возращает разность номиналов двух карт (если DenominationsComparison > 0, то первая карта больше,чем  вторая, если DenominationsComparison = 0, то карты по наминалом равны)
@@ -211,10 +227,10 @@ public class Card
         CardColor = card.CardColor;
         CardSuit = card.CardSuit;
     }
-    public void CreateCard(Vector3 position, Quaternion rotation)
+    public void CreateCard(Vector3 position, Quaternion rotation, GameObject parent = null)
     {
         cardView = new CardView();
-        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation);
+        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation, parent);
     }
     public void ReplaceCard(Vector3 position, Quaternion rotation)
     {
@@ -226,14 +242,16 @@ public class Card
     }
     public class CardView
     {
-        GameObject cardObject;
+        public GameObject cardObject;
         public void Render(string value, string suit, Vector3 position, Quaternion rotation, GameObject parent = null)
         {
             //implement
             cardObject = (GameObject)GameObject.Instantiate(Resources.Load("FPC/PlayingCards_" + value + suit));
+            cardObject.tag = "Card";
             cardObject.transform.position = position;
             cardObject.transform.localScale = new Vector3(10, 10, 4);
             cardObject.transform.rotation = rotation;
+            cardObject.AddComponent<BoxCollider>();
             if (parent != null)
             {
                 cardObject.transform.SetParent(parent.transform);
@@ -243,6 +261,14 @@ public class Card
         {
             cardObject.transform.position = position;
             cardObject.transform.rotation = rotation;
+        }
+        public void Drag(Vector3 mousePos)
+        {
+            cardObject.transform.position = mousePos;
+        }
+        public void SelfDestroy()
+        {
+            GameObject.Destroy(cardObject);
         }
     }
 }

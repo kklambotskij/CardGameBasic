@@ -3,9 +3,12 @@
 public class PlayerController : MonoBehaviour
 {
     protected CardCollectionModel Target { get; set; }
+    protected GameObject CardTarget;
     protected bool myTurn;
     protected int numberOfChosenCard;
     protected Vector2 defaultPosition;
+    protected Vector2 initMouse;
+    protected float initX, initY, initZ;
 
     protected void Awake()
     {
@@ -30,25 +33,43 @@ public class PlayerController : MonoBehaviour
         else
         {
             Target = null;
-        }
+        }  
     }
 
     protected virtual void Actions()
     {
-        switch (Target.GetType().Name)
+        if (Target != null)
         {
-            case CardCollectionModel.HAND_MODEL:
-                HandAction();
-                break;
-            case CardCollectionModel.DECK_MODEL:
-                DeckAction();
-                break;
-            default:
-                Debug.Log("Unexpected target");
-                break;
+            switch (Target.GetType().Name)
+            {
+                case CardCollectionModel.HAND_MODEL:
+                    HandAction();
+                    break;
+                case CardCollectionModel.DECK_MODEL:
+                    DeckAction();
+                    break;
+                default: 
+                    break;
+            }
+        }
+        else
+        {
+            CardAction();
         }
     }
 
+    protected void CardAction()
+    {
+        if(CardTarget != null && CardTarget.tag.Equals("Card"))
+        {
+            //    CardTarget.transform.Translate(new Vector3(0, -0.5f, 0));
+            initX = CardTarget.transform.position.x;
+            initY = CardTarget.transform.position.y;
+            initZ = CardTarget.transform.position.z;
+            CardTarget.transform.position = new Vector3(initX, initY, initZ - 0.1f);
+            initMouse = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        }
+    }
     protected virtual void HandAction()
     {
         int i;
@@ -80,14 +101,22 @@ public class PlayerController : MonoBehaviour
         Target.TakeCard();
     }
 
-    bool SetTarget()
+    protected bool SetTarget()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Target = DetectCardCollection(hit.collider.gameObject);
-            defaultPosition = Target.gameObject.transform.position;
+            if (!hit.collider.gameObject.tag.Equals("Card"))
+            {
+                Target = DetectCardCollection(hit.collider.gameObject);
+                defaultPosition = Target.gameObject.transform.position;
+            }
+            else if(CardTarget == null)
+            {
+                CardTarget = hit.collider.gameObject;
+                return true;
+            }
         }
         return (Target != null);
     }

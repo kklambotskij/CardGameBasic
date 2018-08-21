@@ -9,6 +9,6 @@ public class UnoRules : Rules
         {
             return true;
         }
-        return (chosenCard.Value == topCard.Value) || SameColor(chosenCard, topCard);
+        return (chosenCard.StringValue == topCard.StringValue) || SameColor(chosenCard, topCard);
     }
 }
