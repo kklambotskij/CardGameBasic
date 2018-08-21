@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 //Класс состоящий изи 2 карт(для дурака), это пара должна быть частью стола
-public class DoubleCardModel : CardCollextionModel {
+public class DoubleCardModel : CardCollectionModel {
 
     protected bool isThrow = false;
     protected bool isHit = false; 

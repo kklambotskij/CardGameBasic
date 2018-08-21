@@ -7,28 +7,32 @@ public class DeckModel : CardCollectionModel {
 
     private new void Start()
     {
-        base.Awake();
-        FoolDeck();
-        Shuffle();
-        Quaternion rotation = Quaternion.AngleAxis(-10, new Vector3(1, 0, 0));
-        Render(new Vector3(-4, 0, 0), rotation);
-        foreach (var item in Access.instance.GetListOfHands())
-        {
-            item.GiveCard(Cards[Cards.Count - 1]);
-        }
+        base.Start();
     }
 
-    protected override void Render(Vector3 position, Quaternion rotation)
+    public override Card TakeCard(int index)
     {
-        rotation = Quaternion.AngleAxis(-10, new Vector3(1, 0, 0));
-        position = new Vector3(-4, 0, 0);
+        Card card = base.TakeCard(index);
+        Debug.Log(card.mCardView.cardObject.name);
+        if (card.mCardView != null)
+        {
+            Collider coll = card.mCardView.cardObject.GetComponent<BoxCollider>();
+            coll.enabled = true;
+        }
+        return card;
+    }
+
+    protected override void Render(Vector3 pos, Quaternion rot)
+    {
         //implement
         for (int i = 0; i < Cards.Count; i++)
         {
             if (!Cards[i].isOnScreen)
             {           
-                Cards[i].CreateCard(new Vector3(position.x, position.y + i * 0.005f, position.z),
-                    rotation, gameObject);
+                Cards[i].CreateCard(new Vector3(pos.x, 
+                    pos.y + i * 0.05f, pos.z),
+                    rot, gameObject);
+                Cards[i].mCardView.cardObject.GetComponent<BoxCollider>().enabled = false;
                 Cards[i].isOnScreen = true;
             }
         }

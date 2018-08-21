@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardPair : CardCollectionModel
 {
     protected Rules mRules;
-    protected CardCollectionModel cardCollection;
+
     private new void Awake()
     {
         base.Awake();
@@ -14,7 +14,6 @@ public class CardPair : CardCollectionModel
     private new void Start()
     {
         base.Start();
-
     }
 
     /*protected bool Check()
@@ -25,9 +24,9 @@ public class CardPair : CardCollectionModel
     //Фун-ия добовляет карту в пару, если это вщзможно 
     public void HitCard(Card chosenCard)
     {
-        if ((mRules.IsAllowed(cardCollection.TakeCard(0), chosenCard)) && (cardCollection.Count < 2))
+        if ((mRules.IsAllowed(TakeCard(0), chosenCard)) && (Cards.Count < 2))
         {
-            cardCollection.GiveCard(chosenCard);
+            GiveCard(chosenCard);
         }
     }
 
@@ -52,7 +51,7 @@ public class CardPair : CardCollectionModel
             throw new System.Exception("ChosenCard is null");
     }*/
 
-    protected override void Render(Quaternion rotation)
+    protected void Render(Quaternion rotation)
     {
         
     }

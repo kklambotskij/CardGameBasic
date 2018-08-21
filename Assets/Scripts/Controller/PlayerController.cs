@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Target != null)
         {
-            switch (Target.GetType().Name)
+            switch (Target.GetName())
             {
                 case CardCollectionModel.HAND_MODEL:
                     HandAction();
@@ -110,7 +110,10 @@ public class PlayerController : MonoBehaviour
             if (!hit.collider.gameObject.tag.Equals("Card"))
             {
                 Target = DetectCardCollection(hit.collider.gameObject);
-                defaultPosition = Target.gameObject.transform.position;
+                if (Target != null)
+                {
+                    defaultPosition = Target.gameObject.transform.position;
+                }
             }
             else if(CardTarget == null)
             {
@@ -128,8 +131,15 @@ public class PlayerController : MonoBehaviour
         {
             cardCollection = gameObject.GetComponent<HandModel>();
         }
-        Debug.Log(cardCollection.name);
-        return cardCollection;
+        if (cardCollection != null)
+        {
+            Debug.Log(cardCollection.GetType().Name); 
+            return cardCollection;
+        } else {
+            Debug.Log("Collection is null");
+            return null;
+        }
+        
     }
 
     public void GiveTurn()

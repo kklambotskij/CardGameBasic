@@ -6,6 +6,11 @@ public class Rules
     {
         return true;
     }
+
+    public virtual bool IsAllowed(Card chosenCard, CardCollectionModel cardCollection)
+    {
+        return true;
+    }
     
     protected int CountWinners(List<HandModel> hands)
     {
@@ -17,13 +22,14 @@ public class Rules
         }
         return amountWon;
     }
-    protected bool SameSuit(Card chosenCard, Card topCard)
+
+    protected virtual bool SameValue(Card chosenCard, Card topCard)
     {
-        return (chosenCard.CardSuit == topCard.CardSuit);
+        return (chosenCard.mDenomination == topCard.mDenomination);
     }
 
-    protected bool SameColor(Card chosenCard, Card topCard)
+    protected virtual bool SameSuit(Card chosenCard, Card topCard)
     {
-        return (chosenCard.CardColor == topCard.CardColor);
+        return (chosenCard.CardSuit.Value == topCard.CardSuit.Value);
     }
 }

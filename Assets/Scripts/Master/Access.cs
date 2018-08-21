@@ -25,24 +25,33 @@ public class Access : MonoBehaviour
     private int currentPlayer = -1;
     int timerTurn;
     public bool win;
+    Rules mRules;
 
     private void Awake()
     {
         Players = new List<GameObject>();
         Hands = new List<HandController>();
+        List<string> players = new List<string>();
+        players.Add("player1");
+        players.Add("player2");
+        UnoRules rules = new UnoRules();
+        StartGame(players, rules);
     }
 
     private void Start()
     {
-        StartGame();
+        
     }
 
-    public void StartGame()
+    public void StartGame(List<string> players, Rules rules)
     {
+        mRules = rules;
+        foreach (var item in players)
+        {
+            AddPlayer(item);
+        }
         win = false;
         timerTurn = -2;
-        AddPlayer(GameObject.Find("Player1"));
-        //AddPlayer(GameObject.Find("Player2"));
         GiveTurn(0);
     }
 
@@ -57,13 +66,15 @@ public class Access : MonoBehaviour
         return Hands[currentPlayer];
     }
 
-    public void AddPlayer(GameObject obj)
+    public void AddPlayer(string playerName)
     {
-        Players.Add(obj);
-        string playerName = "Player" + Players.Count;
-        Players[Players.Count - 1].name = name;
-        Hands.Add(Players[Players.Count - 1].GetComponent<HandController>());
-        //hands[hands.Count - 1].playerName = name;
+        GameObject player = (GameObject)Instantiate(Resources.Load("Player"));
+        player.name = playerName;
+        HandController hand = player.GetComponent<HandController>();
+        hand.setPlayerName(playerName);
+        hand.rules = mRules;
+        Players.Add(player);
+        Hands.Add(hand);
     }
 
     void GiveTurn(int number)

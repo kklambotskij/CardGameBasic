@@ -13,15 +13,10 @@ public class HandModel : CardCollectionModel {
     private new void Awake()
     {
         base.Awake();
-
-        for (int i = 0; i < 4; i++)
-        {
-            GiveCard(new Card("2", new Card.Suit(Card.Suit.Values.Club)));
-        }
         SetSize();
-        rotation = Quaternion.AngleAxis(160, new Vector3(1, 0, 0));
-        Render(new Vector3(0, 0, 0), rotation);
+        rotationVector = Quaternion.AngleAxis(160, new Vector3(1, 0, 0));
     }
+
     private new void Update()
     {
         base.Update();
@@ -29,7 +24,7 @@ public class HandModel : CardCollectionModel {
     }
     void SetSize()
     {
-        GameObject testObj = (GameObject)Instantiate(Resources.Load("FPC/PlayingCards_3Diamond"));
+        GameObject testObj = (GameObject)Instantiate(Resources.Load("Uno/Card"));
         testObj.AddComponent<BoxCollider>();
         testObj.transform.localScale = new Vector3(10, 10, 4);
         cardSize = testObj.GetComponent<BoxCollider>().bounds.size;
@@ -37,7 +32,8 @@ public class HandModel : CardCollectionModel {
     }
     private new void Start()
     {
-        base.Start();    
+        base.Start();
+        Render();
     }
 
     public HandModel(string playerName)
@@ -47,12 +43,12 @@ public class HandModel : CardCollectionModel {
 
     public void Render()
     {
-        Render(position, rotation);
+        Render(positionVector, rotationVector);
     }
 
-    protected override void Render(Vector3 position, Quaternion rotation)
+    protected override void Render(Vector3 pos, Quaternion rot)
     {
-        rotation = Quaternion.AngleAxis(160, new Vector3(1, 0, 0));
+        rot = Quaternion.AngleAxis(160, new Vector3(1, 0, 0));
         float initialPosX = -cardSize.x * step * Cards.Count / 2;
         cardStep = cardSize.x * step;
         if (Cards.Count > 7)
@@ -65,12 +61,16 @@ public class HandModel : CardCollectionModel {
             if (!Cards[i].isOnScreen)
             {
                 Cards[i].CreateCard(new Vector3(initialPosX + i * cardStep,
-                    position.y, position.z), rotation, gameObject);
+                                                pos.y, pos.z), rot, gameObject);
                 Cards[i].isOnScreen = true;
+                if (Cards[i].mCardView.cardObject.GetComponent<BoxCollider>() != null)
+                {
+                    Cards[i].mCardView.cardObject.AddComponent<BoxCollider>();
+                }
             }
             Cards[i].ReplaceCard(new Vector3(initialPosX + i * cardStep,
-                    position.y + i * 0.001f, position.z), rotation);
-            Cards[i].cardView.cardObject.name = i.ToString();
+                                             pos.y + i * 0.001f, pos.z), rot);
+            Cards[i].mCardView.cardObject.name = i.ToString();
         }
     }
 }

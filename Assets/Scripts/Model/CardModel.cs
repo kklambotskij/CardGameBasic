@@ -4,10 +4,9 @@ public class Card
 {
     public CardView mCardView;
     public string StringValue { get; set; }
-    public Denomination mDenenomination;
+    public Denomination mDenomination;
     public Suit CardSuit { get; set; }
     public string Owner { get; set; }
-    public Color CardColor { get; set; }
 
     public bool isOnScreen = false;
  
@@ -29,70 +28,6 @@ public class Card
         }
     }
 
-    public class Color
-    {
-        public Values Value { get; set; }
-        public GameObject Object { get; set; }
-
-        public enum Values
-        {
-            Red, Yellow, Green, Blue, Any
-        }
-
-        public static Color fromInt(int color)
-        {
-            return new Color(color);
-        }
-
-        public Color(Values color)
-        {
-            Value = color;
-        }
-
-        public Color(int color)
-        {
-            //TODO: implement different constructors form Value and from int
-            switch (color)
-            {
-                case 0:
-                    Value = Values.Red;
-                    break;
-                case 1:
-                    Value = Values.Yellow;
-                    break;
-                case 2:
-                    Value = Values.Green;
-                    break;
-                case 3:
-                    Value = Values.Blue;
-                    break;
-                default:
-                    Value = Values.Any;
-                    break;
-            }
-        }
-
-        public int ToInt()
-        {
-            //TODO: implement
-            switch (Value)
-            {
-                case Values.Red:
-                    return 0;
-                case Values.Yellow:
-                    return 1;
-                case Values.Green:
-                    return 2;
-                case Values.Blue:
-                    return 3;
-                case Values.Any:
-                    return 4;
-            }
-            throw new System.Exception("Color doesn't exist!");
-        }
-    }
-
-
     //Номинал
     public class Denomination
     {
@@ -107,6 +42,54 @@ public class Card
         public Denomination(Values denomination)
         {
             Value = denomination;
+        }
+
+        public override bool Equals(object o)
+        {
+            return true;
+        }
+        public override int GetHashCode()
+        {
+            return 0;
+        }
+
+        public override string ToString()
+        {
+            switch (Value)
+            {
+                case Values.Zero:
+                    return "0";
+                case Values.One:
+                    return "1";
+                case Values.Two:
+                    return "2";
+                case Values.Three:
+                    return "3";
+                case Values.Four:
+                    return "4";
+                case Values.Five:
+                    return "5";
+                case Values.Six:
+                    return "6";
+                case Values.Seven:
+                    return "7";
+                case Values.Eight:
+                    return "8";
+                case Values.Nine:
+                    return "9";
+                case Values.Ten:
+                    return "10";
+                case Values.Jack:
+                    return "J";
+                case Values.Queen:
+                    return "Q";
+                case Values.King:
+                    return "K";
+                case Values.ACE:
+                    return "A";
+                default:
+                    return null;
+            }
         }
 
         public int ToInt()
@@ -147,56 +130,42 @@ public class Card
             throw new System.Exception("Denomination doesn't exist!");
         }
 
-        public void FromInt(int denomination)
+        public static Denomination FromInt(int denomination)
         {
             switch (denomination)
             {
                 case 0:
-                    Value = Values.Zero;
-                    break;
+                    return new Denomination(Denomination.Values.Zero);
                 case 1:
-                    Value = Values.One;
-                    break;
+                    return new Denomination(Denomination.Values.One);
                 case 2:
-                    Value = Values.Two;
-                    break;
+                    return new Denomination(Denomination.Values.Two);
                 case 3:
-                    Value = Values.Three;
-                    break;
+                    return new Denomination(Denomination.Values.Three);
                 case 4:
-                    Value = Values.Four;
-                    break;
+                    return new Denomination(Denomination.Values.Four);
                 case 5:
-                    Value = Values.Five;
-                    break;
+                    return new Denomination(Denomination.Values.Five);
                 case 6:
-                    Value = Values.Six;
-                    break;
+                    return new Denomination(Denomination.Values.Six);
                 case 7:
-                    Value = Values.Seven;
-                    break;
+                    return new Denomination(Denomination.Values.Seven);
                 case 8:
-                    Value = Values.Eight;
-                    break;
+                    return new Denomination(Denomination.Values.Eight);
                 case 9:
-                    Value = Values.Nine;
-                    break;
+                    return new Denomination(Denomination.Values.Nine);
                 case 10:
-                    Value = Values.Ten;
-                    break;
+                    return new Denomination(Denomination.Values.Ten);
                 case 11:
-                    Value = Values.Jack;
-                    break;
+                    return new Denomination(Denomination.Values.Jack);
                 case 12:
-                    Value = Values.Queen;
-                    break;
+                    return new Denomination(Denomination.Values.Queen);
                 case 13:
-                    Value = Values.King;
-                    break;
+                    return new Denomination(Denomination.Values.King);
                 case 14:
-                    Value = Values.ACE;
-                    break;
+                    return new Denomination(Denomination.Values.ACE);
             }
+            return null;
         }
 
         public Denomination(int denomination)
@@ -233,26 +202,31 @@ public class Card
         CardSuit = suit;
     }
 
-    public Card(Denomination value, Color color)
+    public Card()
+    {
+        
+    }
+
+    public Card(Denomination value)
     {
         mDenomination = value;
-        CardColor = color;
     }
 
     public Card(Card card)
     {
         mDenomination = card.mDenomination;
-        CardColor = card.CardColor;
         CardSuit = card.CardSuit;
     }
-    public void CreateCard(Vector3 position, Quaternion rotation)
+
+    public virtual void CreateCard(Vector3 position, Quaternion rotation, GameObject parent = null)
     {
-        cardView = new CardView();
-        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation);
+        mCardView = new CardView();
+        mCardView.Render("FPC/PlayingCards_" + mDenomination + CardSuit.StringSuit, position, rotation,
+            new Vector3(10, 10, 4), parent);
     }
     public void ReplaceCard(Vector3 position, Quaternion rotation)
     {
-        cardView.Replace(position, rotation);
+        mCardView.Replace(position, rotation);
     }
     public void DestroyCard()
     {
@@ -261,20 +235,20 @@ public class Card
     public class CardView
     {
         public GameObject cardObject;
-        public void Render(string value, string suit, Vector3 position, Quaternion rotation, GameObject parent = null)
+
+        public void Render(string value, Vector3 position, Quaternion rotation, Vector3 localScale, GameObject parent = null)
         {
-            //implement
-            cardObject = (GameObject)GameObject.Instantiate(Resources.Load("FPC/PlayingCards_" + value + suit));
+            cardObject = (GameObject)Object.Instantiate(Resources.Load(value));
             cardObject.tag = "Card";
             cardObject.transform.position = position;
-            cardObject.transform.localScale = new Vector3(10, 10, 4);
+            cardObject.transform.localScale = localScale;
             cardObject.transform.rotation = rotation;
-            cardObject.AddComponent<BoxCollider>();
             if (parent != null)
             {
                 cardObject.transform.SetParent(parent.transform);
             }
         }
+
         public void Replace(Vector3 position, Quaternion rotation)
         {
             cardObject.transform.position = position;
@@ -286,7 +260,9 @@ public class Card
         }
         public void SelfDestroy()
         {
-            GameObject.Destroy(cardObject);
+            Object.Destroy(cardObject);
         }
+
     }
-}
+
+    }

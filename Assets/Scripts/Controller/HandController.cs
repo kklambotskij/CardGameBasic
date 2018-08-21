@@ -1,11 +1,12 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class HandController : PlayerController  {
+public class HandController : PlayerController {
 
     HandModel model;
     public Rules rules;
-    DeckModel deckModel;
 
     private new void Awake()
     {
@@ -13,10 +14,25 @@ public class HandController : PlayerController  {
         model = GetComponent<HandModel>();
         rules = new UnoRules();
     }
-  
+
     private new void Update()
     {
         base.Update();
+        if (myTurn)
+        {
+            DragAndDrop();
+        }
+    }
+
+    private void DnDAction()
+    {
+        Target.GiveCard(model.TakeCard(Convert.ToInt32(CardTarget.name)));
+        Destroy(CardTarget);
+        model.Render();
+    }
+
+    private void DragAndDrop()
+    {
         if (Input.GetMouseButton(0) && CardTarget != null)
         {
             CardTarget.transform.Translate((Input.mousePosition.x - initMouse.x) / 90,
@@ -27,11 +43,12 @@ public class HandController : PlayerController  {
         {
             if (SetTarget() && Target != null)
             {
-                if (Target.GetType().Name == CardCollectionModel.DECK_MODEL)
+                Debug.Log(Target.GetType().ToString());
+                Card card = model.CheckCard(TryParse(CardTarget.name));
+                if (rules.IsAllowed(card, Target))
                 {
-                    Target.GiveCard(model.TakeCard(System.Convert.ToInt32(CardTarget.name)));
-                    Destroy(CardTarget);
-                    model.Render();
+                    DnDAction();
+                    EndTurn();
                 }
             }
             if (CardTarget != null)
@@ -42,10 +59,34 @@ public class HandController : PlayerController  {
         }
     }
 
+    public int TryParse(string str)
+    {
+        try
+        {
+            return Convert.ToInt32(str);
+        } 
+        catch(Exception e)
+        {
+            Debug.Log(e);
+            return -1;
+        }
+    }
+
     protected override void Actions()
     {
         base.Actions();
-    }
+        if (Target != null)
+        {
+            switch (Target.GetName())
+            {
+                case DiscardPile.DISCARD_PILE:
+                    GetCard();
+                    break;
+                default:
+                    break;
+            }
+        }
+     }
 
     protected override void HandAction()
     {
@@ -75,7 +116,6 @@ public class HandController : PlayerController  {
         {
             model.GiveCard(card);
         }
-        model.GiveCard(card);
     }
 
     public string getPlayerName() 
@@ -86,6 +126,5 @@ public class HandController : PlayerController  {
     public void setPlayerName(string name)
     {
         model.PlayerName = name;
-        return model.GetName();
     }
 }

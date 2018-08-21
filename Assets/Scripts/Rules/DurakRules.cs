@@ -23,11 +23,11 @@ public class DurakRules : Rules
         }
         if (targetCard.CardSuit == kozir)
         {
-            return ((targetCard.denomination < chosenCard.denomination) && (chosenCard.CardSuit == kozir));
+            return ((targetCard.mDenomination < chosenCard.mDenomination) && (chosenCard.CardSuit == kozir));
         } 
         else
         {
-            return (SameSuit(chosenCard, targetCard) && (targetCard.denomination < chosenCard.denomination))
+            return (SameSuit(chosenCard, targetCard) && (targetCard.mDenomination < chosenCard.mDenomination))
                 || (chosenCard.CardSuit == kozir);
         }
     }

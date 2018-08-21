@@ -3,12 +3,27 @@ using UnityEditor;
 
 public class UnoRules : Rules
 {
-    public override bool IsAllowed(Card chosenCard, Card topCard)
+    protected bool SameColor(UnoCard chosenCard, UnoCard topCard)
     {
-        if (chosenCard.CardColor.Value == Card.Color.Values.Any)
+        return (chosenCard.CardColor.Value == topCard.CardColor.Value);
+    }
+
+    public override bool IsAllowed(Card chosenCard, CardCollectionModel cardCollection)
+    {
+        if (cardCollection.GetType().ToString().Equals(DiscardPile.DISCARD_PILE) 
+            && chosenCard.GetType().ToString().Equals("UnoCard"))
+        {
+            return IsAllowed((UnoCard)chosenCard, cardCollection.CheckCard(0));
+        }
+        return false;
+    }
+
+    public bool IsAllowed(UnoCard chosenCard, UnoCard topCard)
+    {
+        if (chosenCard.CardColor.Value == UnoCard.Color.Values.Any)
         {
             return true;
         }
-        return (chosenCard.StringValue == topCard.StringValue) || SameColor(chosenCard, topCard);
+        return (SameValue(chosenCard, topCard) || SameColor(chosenCard, topCard));
     }
 }
