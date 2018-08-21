@@ -2,9 +2,9 @@
 
 public class Card
 {
-    public CardView cardView;
-    public int UID;
+    CardView cardView;
     public string StringValue { get; set; }
+    public Denomination mDenenomination;
     public Suit CardSuit { get; set; }
     public string Owner { get; set; }
     public Color CardColor { get; set; }
@@ -97,7 +97,6 @@ public class Card
     public class Denomination
     {
         public Values Value { get; set; }
-        public GameObject Object { get; set; }
         //public static const string Zero = "0";
         public enum Values
         {
@@ -147,7 +146,7 @@ public class Card
             throw new System.Exception("Denomination doesn't exist!");
         }
 
-        public Denomination(int denomination)
+        public void FromInt(int denomination)
         {
             switch (denomination)
             {
@@ -198,39 +197,57 @@ public class Card
                     break;
             }
         }
-        //Функция возращает разность номиналов двух карт (если DenominationsComparison > 0, то первая карта больше,чем  вторая, если DenominationsComparison = 0, то карты по наминалом равны)
-        public int DenominationsComparison(Denomination denominationFirstCard, Denomination denominationSecondCard)
+
+        public Denomination(int denomination)
         {
-            int ValueFirst = denominationFirstCard.ToInt();
-            int ValueSecond = denominationSecondCard.ToInt();
-            return ValueFirst - ValueSecond;
+            FromInt(denomination);
+        }
+
+        public static bool operator < (Denomination denomination, Denomination denomination2)
+        {
+            return denomination.ToInt() < denomination2.ToInt();
+        }
+
+        public static bool operator > (Denomination denomination, Denomination denomination2)
+        {
+            return denomination.ToInt() > denomination2.ToInt();
+        }
+
+        public static bool operator ==(Denomination denomination, Denomination denomination2)
+        {
+            return denomination.ToInt() == denomination2.ToInt();
+        }
+
+        public static bool operator !=(Denomination denomination, Denomination denomination2)
+        {
+            return denomination.ToInt() != denomination2.ToInt();
         }
     }
 
     //implement constructors from CardColor / Suit
 
-    public Card(string value, Suit suit)
+    public Card(Denomination value, Suit suit)
     {
-        StringValue = value;
+        mDenomination = value;
         CardSuit = suit;
     }
 
-    public Card(string value, Color color)
+    public Card(Denomination value, Color color)
     {
-        StringValue = value;
+        mDenomination = value;
         CardColor = color;
     }
 
     public Card(Card card)
     {
-        StringValue = card.StringValue;
+        mDenomination = card.mDenomination;
         CardColor = card.CardColor;
         CardSuit = card.CardSuit;
     }
-    public void CreateCard(Vector3 position, Quaternion rotation, GameObject parent = null)
+    public void CreateCard(Vector3 position, Quaternion rotation)
     {
         cardView = new CardView();
-        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation, parent);
+        cardView.Render(StringValue, CardSuit.StringSuit, position, rotation);
     }
     public void ReplaceCard(Vector3 position, Quaternion rotation)
     {

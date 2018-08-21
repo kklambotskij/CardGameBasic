@@ -13,24 +13,33 @@ public class DurakRules : Rules
     public DurakRules()
     {
         int numberSuit = Random.Range(0, 3);
-
     }
 
-    public override bool IsAllowed(Card chosenCard, Card topCard)
+    public override bool IsAllowed(Card chosenCard, Card targetCard)
     {
-        if (topCard == null)
+        if (targetCard == null)
         {
             return true;
         }
-
-        if (topCard.CardSuit == kozir)
+        if (targetCard.CardSuit == kozir)
         {
-            return ((topCard.CardSuit.Value < chosenCard.CardSuit.Value) && (chosenCard.CardSuit == kozir));
-        }
+            return ((targetCard.denomination < chosenCard.denomination) && (chosenCard.CardSuit == kozir));
+        } 
         else
         {
-            return (SameSuit(chosenCard, topCard) && (topCard.CardSuit.Value < chosenCard.CardSuit.Value))
+            return (SameSuit(chosenCard, targetCard) && (targetCard.denomination < chosenCard.denomination))
                 || (chosenCard.CardSuit == kozir);
         }
     }
+    /*public bool ThrowCard(Desk desk, Card chosenCard)
+    {
+        for (i = 0; i < desk.Count(); i++)
+        {
+            if (desk.TakeCard(i).denomination == chosenCard.denomination)
+            {
+                return true;
+            }
+        }
+        return false;
+    }*/
 }
